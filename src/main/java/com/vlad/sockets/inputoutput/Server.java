@@ -1,4 +1,4 @@
-package com.vlad.sockets;
+package com.vlad.sockets.inputoutput;
 
 import java.io.*;
 import java.net.ServerSocket;
