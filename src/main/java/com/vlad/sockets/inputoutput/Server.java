@@ -3,6 +3,7 @@ package com.vlad.sockets.inputoutput;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Server {
     public static void main(String[] args) throws IOException {
@@ -13,14 +14,22 @@ public class Server {
 
 
             byte[] message = new byte[100];
-            byte[] echo = "echo:".getBytes();
+            String echo = "echo:";
+            int echoLength = echo.length();
 
-            int count = bufferedInputStream.read(message, echo.length, message.length - echo.length);
+            for (int i = 0; i < echoLength; i++) {
+                message[i] = (byte) echo.charAt(i);
+            }
 
-            System.arraycopy(echo, 0, message, 0, echo.length);
+            int freeSpace = message.length - echoLength;
 
-            bufferedOutputStream.write(message, 0, count + echo.length);
+            while (true) {
+                int count;
+                while ((count = bufferedInputStream.read(message, echoLength, freeSpace)) != -1) {
+                    bufferedOutputStream.write(message, 0, count + echoLength);
+                    bufferedOutputStream.flush();
+                }
+            }
         }
-
     }
 }

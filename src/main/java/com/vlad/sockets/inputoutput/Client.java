@@ -11,16 +11,20 @@ public class Client {
              BufferedInputStream bufferedInputStream = new BufferedInputStream(client.getInputStream());
              BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(client.getOutputStream())) {
 
-            String message = in.nextLine();
-
-            bufferedOutputStream.write(message.getBytes());
-            bufferedOutputStream.flush();
-
             byte[] answer = new byte[100];
-            int count = bufferedInputStream.read(answer);
 
-            System.out.println(new String(answer, 0, count));
+            while (true) {
+                String message = in.nextLine();
+                bufferedOutputStream.write(message.getBytes());
+                bufferedOutputStream.flush();
+                System.out.println("Write-> " + message);
+                bufferedOutputStream.flush();
+
+                int count;
+                count = bufferedInputStream.read(answer);
+                System.out.println(new String(answer, 0, count));
+            }
+
         }
-
     }
 }
